@@ -16,7 +16,11 @@ namespace Raspberry_Pi_Sensor_API.Controllers
         [HttpGet(Name = "GetTemperatureRecording")]
         public TemperatureRecording GetTemperature()
         {
-            throw new NotImplementedException();
+            return new TemperatureRecording
+            {
+                Date = DateTime.UtcNow,
+                TemperatureC = 21,
+            };
         }
     }
 }
