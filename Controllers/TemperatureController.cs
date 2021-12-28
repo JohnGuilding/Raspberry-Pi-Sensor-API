@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Raspberry_Pi_Sensor_API.Models;
+using Raspberry_Pi_Sensor_API.Services;
 
 namespace Raspberry_Pi_Sensor_API.Controllers
 {
@@ -7,10 +8,12 @@ namespace Raspberry_Pi_Sensor_API.Controllers
     [Route("[controller]")]
     public class TemperatureController : ControllerBase
     {
+        private readonly ITemperatureService temperatureService;
         private readonly ILogger<TemperatureController> _logger;
 
-        public TemperatureController(ILogger<TemperatureController> logger)
+        public TemperatureController(ITemperatureService temperatureService, ILogger<TemperatureController> logger)
         {
+            this.temperatureService = temperatureService;
             _logger = logger;
         }
 
@@ -19,7 +22,7 @@ namespace Raspberry_Pi_Sensor_API.Controllers
         /// </summary>
         /// <returns>A single temperature recording response</returns>
         [HttpGet(Name = "GetTemperatureRecording")]
-        public TemperatureRecordingResponse GetTemperature()
+        public async Task<TemperatureRecordingResponse> GetTemperature()
         {
             return new TemperatureRecordingResponse
             {
@@ -34,13 +37,15 @@ namespace Raspberry_Pi_Sensor_API.Controllers
         /// <param name="temperatureRecordingRequest">The temperature recording</param>
         /// <returns>A single temperature recording response</returns>
         [HttpPost(Name = "SendTemperatureRecording")]
-        public TemperatureRecordingResponse SendTemperature(TemperatureRecordingRequest temperatureRecordingRequest)
+        public async Task<TemperatureRecordingResponse> SendTemperature(TemperatureRecordingRequest temperatureRecordingRequest)
         {
-            return new TemperatureRecordingResponse
+            var result = await temperatureService.SendTemperatureRecording(temperatureRecordingRequest);
+
+            if (result == null)
             {
-                Date = DateTime.UtcNow,
-                TemperatureC = 21,
-            };
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }
