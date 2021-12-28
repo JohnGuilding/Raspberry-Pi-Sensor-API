@@ -1,4 +1,6 @@
+using Raspberry_Pi_Sensor_API.Repositories;
 using Raspberry_Pi_Sensor_API.Repositories.Models;
+using Raspberry_Pi_Sensor_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<SensorMeasurementsDatabaseSettings>(
     builder.Configuration.GetSection("SensorMeasurementsDatabase"));
+
+builder.Services.AddTransient<TemperatureService>();
+builder.Services.AddSingleton<TemperatureRepository>();
 
 var app = builder.Build();
 
