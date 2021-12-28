@@ -22,13 +22,15 @@ namespace Raspberry_Pi_Sensor_API.Controllers
         /// </summary>
         /// <returns>A single temperature recording response</returns>
         [HttpGet(Name = "GetTemperatureRecording")]
-        public async Task<TemperatureRecordingResponse> GetTemperature()
+        public async Task<IActionResult> GetTemperature()
         {
-            return new TemperatureRecordingResponse
+            var result = new TemperatureRecordingResponse
             {
                 Date = DateTime.UtcNow,
                 TemperatureC = 21,
             };
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -37,7 +39,7 @@ namespace Raspberry_Pi_Sensor_API.Controllers
         /// <param name="temperatureRecordingRequest">The temperature recording</param>
         /// <returns>A single temperature recording response</returns>
         [HttpPost(Name = "SendTemperatureRecording")]
-        public async Task<TemperatureRecordingResponse> SendTemperature(TemperatureRecordingRequest temperatureRecordingRequest)
+        public async Task<IActionResult> SendTemperature(TemperatureRecordingRequest temperatureRecordingRequest)
         {
             var result = await temperatureService.SendTemperatureRecording(temperatureRecordingRequest);
 
