@@ -1,4 +1,4 @@
-namespace Raspberry_Pi_Sensor_API
+﻿namespace Raspberry_Pi_Sensor_API.Domain.Models
 {
     public class TemperatureRecording
     {
