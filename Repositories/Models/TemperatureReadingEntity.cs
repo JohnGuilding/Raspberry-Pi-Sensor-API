@@ -8,7 +8,6 @@ namespace Raspberry_Pi_Sensor_API.Repositories.Models
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string? Id { get; set; }
 
-        [BsonElement("Date")]
         public DateTime ReadingDate { get; set; }
 
         public int TemperatureC { get; set; }

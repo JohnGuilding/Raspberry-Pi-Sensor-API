@@ -9,13 +9,14 @@ namespace Raspberry_Pi_Sensor_API.Repositories
     {
         private readonly IMongoCollection<TemperatureReadingEntity> temperatureCollection;
 
-        public TemperatureRepository(IOptions<SensorMeasurementsDatabaseSettings> sensorMeasurementDatabaseSettings)
+        public TemperatureRepository(
+            IOptions<SensorMeasurementsDatabaseSettings> sensorMeasurementDatabaseSettings)
         {
             var mongoClient = new MongoClient(
                 sensorMeasurementDatabaseSettings.Value.ConnectionString);
 
             var mongoDatabase = mongoClient.GetDatabase(
-                sensorMeasurementDatabaseSettings.Value.DatebaseName);
+                sensorMeasurementDatabaseSettings.Value.DatabaseName);
 
             temperatureCollection = mongoDatabase.GetCollection<TemperatureReadingEntity>(
                 sensorMeasurementDatabaseSettings.Value.TemperatureCollectionName);

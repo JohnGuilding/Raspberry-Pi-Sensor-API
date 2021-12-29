@@ -14,8 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<SensorMeasurementsDatabaseSettings>(
     builder.Configuration.GetSection("SensorMeasurementsDatabase"));
 
-builder.Services.AddTransient<TemperatureService>();
-builder.Services.AddSingleton<TemperatureRepository>();
+builder.Services.AddTransient<ITemperatureService, TemperatureService>();
+builder.Services.AddSingleton<ITemperatureRepository, TemperatureRepository>();
 
 var app = builder.Build();
 
