@@ -1,6 +1,6 @@
 ﻿namespace Raspberry_Pi_Sensor_API.Domain.Models
 {
-    public class TemperatureRecording
+    public class TemperatureReading
     {
         public DateTime Date { get; set; }
 

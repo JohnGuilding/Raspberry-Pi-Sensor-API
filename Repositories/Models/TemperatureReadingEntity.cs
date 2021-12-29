@@ -2,7 +2,7 @@
 
 namespace Raspberry_Pi_Sensor_API.Repositories.Models
 {
-    public class TemperatureRecordingEntity
+    public class TemperatureReadingEntity
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]

@@ -7,7 +7,7 @@ namespace Raspberry_Pi_Sensor_API.Repositories
 {
     public class TemperatureRepository : ITemperatureRepository
     {
-        private readonly IMongoCollection<TemperatureRecordingEntity> temperatureCollection;
+        private readonly IMongoCollection<TemperatureReadingEntity> temperatureCollection;
 
         public TemperatureRepository(IOptions<SensorMeasurementsDatabaseSettings> sensorMeasurementDatabaseSettings)
         {
@@ -17,22 +17,22 @@ namespace Raspberry_Pi_Sensor_API.Repositories
             var mongoDatabase = mongoClient.GetDatabase(
                 sensorMeasurementDatabaseSettings.Value.DatebaseName);
 
-            temperatureCollection = mongoDatabase.GetCollection<TemperatureRecordingEntity>(
+            temperatureCollection = mongoDatabase.GetCollection<TemperatureReadingEntity>(
                 sensorMeasurementDatabaseSettings.Value.TemperatureCollectionName);
         }
 
-        public async Task<TemperatureRecording> SendTemperatureRecording(TemperatureRecording temperatureRecording)
+        public async Task<TemperatureReading> SendTemperatureReading(TemperatureReading temperatureReading)
         {
-            var newTemperatureRecording = new TemperatureRecordingEntity()
+            var newTemperatureReading = new TemperatureReadingEntity()
             {
-                ReadingDate = temperatureRecording.Date,
-                TemperatureC = temperatureRecording.TemperatureC,
-                TemperatureF = temperatureRecording.TemperatureF,
+                ReadingDate = temperatureReading.Date,
+                TemperatureC = temperatureReading.TemperatureC,
+                TemperatureF = temperatureReading.TemperatureF,
             };
 
-            await temperatureCollection.InsertOneAsync(newTemperatureRecording);
+            await temperatureCollection.InsertOneAsync(newTemperatureReading);
 
-            return temperatureRecording;
+            return temperatureReading;
         }
     }
 }

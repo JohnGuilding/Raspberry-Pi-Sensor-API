@@ -4,6 +4,6 @@ namespace Raspberry_Pi_Sensor_API.Repositories
 {
     public interface ITemperatureRepository
     {
-        Task<TemperatureRecording> SendTemperatureRecording(TemperatureRecording temperatureRecording);
+        Task<TemperatureReading> SendTemperatureReading(TemperatureReading temperatureReading);
     }
 }
