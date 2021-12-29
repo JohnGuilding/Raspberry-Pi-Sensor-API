@@ -9,12 +9,12 @@ namespace Raspberry_Pi_Sensor_API.Controllers
     public class TemperatureController : ControllerBase
     {
         private readonly ITemperatureService temperatureService;
-        private readonly ILogger<TemperatureController> _logger;
+        private readonly ILogger<TemperatureController> logger;
 
         public TemperatureController(ITemperatureService temperatureService, ILogger<TemperatureController> logger)
         {
             this.temperatureService = temperatureService;
-            _logger = logger;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -22,6 +22,9 @@ namespace Raspberry_Pi_Sensor_API.Controllers
         /// </summary>
         /// <returns>A list of temperature reading responses</returns>
         [HttpGet(Name = "GetTemperatureReadings")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetTemperatureReadings()
         {
             var result = await temperatureService.GetTemperatureReadings();
@@ -35,15 +38,18 @@ namespace Raspberry_Pi_Sensor_API.Controllers
         /// <param name="temperatureReadingRequest">The temperature reading</param>
         /// <returns>A single temperature reading response</returns>
         [HttpPost(Name = "SendTemperatureReading")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SendTemperature(TemperatureReadingRequest temperatureReadingRequest)
         {
             var result = await temperatureService.SendTemperatureReading(temperatureReadingRequest);
 
-            if (result == null)
+            if (result == null) // TODO: Add validation
             {
                 return BadRequest(result);
             }
-            return Ok(result);
+            return Created(string.Empty, result);
         }
     }
 }
