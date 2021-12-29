@@ -12,6 +12,23 @@ namespace Raspberry_Pi_Sensor_API.Services
         {
             this.temperatureRepository = temperatureRepository;
         }
+
+        public async Task<List<TemperatureReadingResponse>> GetTemperatureReadings()
+        {
+            var readings = await temperatureRepository.GetTemperatureReadings();
+
+            var readingsResponse = readings
+                .Select(reading => new TemperatureReadingResponse()
+                {
+                    Date = reading.Date,
+                    TemperatureC = reading.TemperatureC,
+                    TemperatureF = reading.TemperatureF,
+                })
+                .ToList();
+
+            return readingsResponse;
+        }
+
         public async Task<TemperatureReadingResponse> SendTemperatureReading(TemperatureReadingRequest temperatureReadingRequest)
         {
             var temperatureReading = new TemperatureReading()

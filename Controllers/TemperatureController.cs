@@ -18,17 +18,13 @@ namespace Raspberry_Pi_Sensor_API.Controllers
         }
 
         /// <summary>
-        /// Gets a temperature reading
+        /// Gets all of the temperature readings
         /// </summary>
-        /// <returns>A single temperature reading response</returns>
-        [HttpGet(Name = "GetTemperatureReading")]
-        public async Task<IActionResult> GetTemperature()
+        /// <returns>A list of temperature reading responses</returns>
+        [HttpGet(Name = "GetTemperatureReadings")]
+        public async Task<IActionResult> GetTemperatureReadings()
         {
-            var result = new TemperatureReadingResponse
-            {
-                Date = DateTime.UtcNow,
-                TemperatureC = 21,
-            };
+            var result = await temperatureService.GetTemperatureReadings();
 
             return Ok(result);
         }

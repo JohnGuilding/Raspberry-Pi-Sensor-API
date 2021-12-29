@@ -22,6 +22,22 @@ namespace Raspberry_Pi_Sensor_API.Repositories
                 sensorMeasurementDatabaseSettings.Value.TemperatureCollectionName);
         }
 
+        public async Task<List<TemperatureReading>> GetTemperatureReadings()
+        {
+            var temperatureReadingEntities = await temperatureCollection.FindAsync(_ => true);
+
+            var temperatureReadings = temperatureReadingEntities.ToList()
+                .Select(entity => new TemperatureReading()
+                {
+                    Date = entity.ReadingDate,
+                    TemperatureC = entity.TemperatureC,
+                })
+                .ToList();
+
+
+            return temperatureReadings;
+        }
+
         public async Task<TemperatureReading> SendTemperatureReading(TemperatureReading temperatureReading)
         {
             var newTemperatureReading = new TemperatureReadingEntity()
