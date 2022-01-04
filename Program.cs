@@ -11,6 +11,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("GetTempPolicy",
+        builder =>
+        {
+            builder.AllowAnyOrigin();
+        });
+});
+
 builder.Services.Configure<SensorMeasurementsDatabaseSettings>(
     builder.Configuration.GetSection("SensorMeasurementsDatabase"));
 
@@ -27,6 +36,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
