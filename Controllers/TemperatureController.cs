@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Raspberry_Pi_Sensor_API.Models;
 using Raspberry_Pi_Sensor_API.Services;
@@ -21,6 +22,7 @@ namespace Raspberry_Pi_Sensor_API.Controllers
         /// Gets all of the temperature readings
         /// </summary>
         /// <returns>A list of temperature reading responses</returns>
+        [EnableCors]
         [HttpGet(Name = "GetTemperatureReadings")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
