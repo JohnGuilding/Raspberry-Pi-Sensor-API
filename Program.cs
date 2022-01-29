@@ -1,13 +1,24 @@
 using Raspberry_Pi_Sensor_API.Repositories;
 using Raspberry_Pi_Sensor_API.Repositories.Models;
 using Raspberry_Pi_Sensor_API.Services;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+if (builder.Environment.IsProduction())
+{
+    builder.Configuration.AddAzureKeyVault(
+        new Uri($"https://{builder.Configuration["KeyVaultname"]}.vault.azure.net/"),
+        new DefaultAzureCredential());
+}
+
+// Added DefaultAzureCredentialOptions to prevent a 401 (Unauthorised) response when trying to access Key Vault from Visual Studio
+var options = new DefaultAzureCredentialOptions { ExcludeVisualStudioCredential = true };
+var client = new SecretClient(new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"), new DefaultAzureCredential(options));
+var secret = await client.GetSecretAsync("Raspberry-Pi-Sensor-Measurements-Connection-String");
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -22,6 +33,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.Configure<SensorMeasurementsDatabaseSettings>(
     builder.Configuration.GetSection("SensorMeasurementsDatabase"));
+builder.Services.PostConfigure<SensorMeasurementsDatabaseSettings>(x => x.ConnectionString = secret.Value.Value);
 
 builder.Services.AddTransient<ITemperatureService, TemperatureService>();
 builder.Services.AddSingleton<ITemperatureRepository, TemperatureRepository>();
