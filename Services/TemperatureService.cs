@@ -20,7 +20,7 @@ namespace Raspberry_Pi_Sensor_API.Services
             var readingsResponse = readings
                 .Select(reading => new TemperatureReadingResponse()
                 {
-                    Date = reading.Date,
+                    ReadingDate = reading.Date,
                     TemperatureC = reading.TemperatureC,
                     TemperatureF = reading.TemperatureF,
                 })
@@ -41,7 +41,7 @@ namespace Raspberry_Pi_Sensor_API.Services
 
             return new TemperatureReadingResponse()
             {
-                Date = result.Date,
+                ReadingDate = result.Date,
                 TemperatureC = result.TemperatureC,
                 TemperatureF = result.TemperatureF
             };

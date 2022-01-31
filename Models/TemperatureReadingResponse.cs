@@ -2,7 +2,7 @@
 {
     public class TemperatureReadingResponse
     {
-        public DateTime Date { get; set; }
+        public DateTime ReadingDate { get; set; }
 
         public int TemperatureC { get; set; }
 
