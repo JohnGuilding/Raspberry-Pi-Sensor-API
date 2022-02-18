@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Raspberry-Pi-Sensor-API-Domain\Raspberry-Pi-Sensor-API-Domain\Raspberry-Pi-Sensor-API-Domain.csproj" />
-    <ProjectReference Include="..\Raspberry-Pi-Sensor-API-Infrastructure\Raspberry-Pi-Sensor-API-Infrastructure\Raspberry-Pi-Sensor-API-Infrastructure.csproj" />
+    <ProjectReference Include="..\Raspberry-Pi-Sensor-API-Domain\Raspberry-Pi-Sensor-API-Domain.csproj" />
+    <ProjectReference Include="..\Raspberry-Pi-Sensor-API-Infrastructure\Raspberry-Pi-Sensor-API-Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
